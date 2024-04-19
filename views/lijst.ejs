@@ -2,11 +2,8 @@
 <%- include('./partials/nav') %>
 <main>
 <section class="baseplate">   
-      <% list.houses.forEach(house => { %>
-   
-        
-    <article class="houses">
-    
+  <% list.houses.forEach(house => { %>
+  <article class="houses">
     <ul>
       <li><img class="image-size" src="https://fdnd-agency.directus.app/assets/?fields=*.*.*,houses.f_houses_id.poster_image.id,houses.f_houses_id.poster_image.width,houses.f_houses_id.poster_image.height" <%= house.f_houses_id.poster_image %>" width="<%= house.f_houses_id.poster_image.width %>" height="<%= house.f_houses_id.poster_image.height %>"> </li>
       <li><%= house.f_houses_id.street %> <%= house.f_houses_id.house_nr %> <%= house.f_houses_id.house_nr_addition %></li>
@@ -17,11 +14,6 @@
       <li><a href="ratings"></a>+ Rating</li> 
     </ul>
   </article>
-
-    
   <% }); %>
-
 </section>
-
-
-  </main>
+ </main>
