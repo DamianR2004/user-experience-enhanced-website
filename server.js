@@ -23,9 +23,6 @@ app.get('/', function(request, response) {
 	response.render('homepage')
 });
 
-app.get('/ratings', function(request, response) {
-	response.render('ratings')
-});
 
 app.get('/lijsten', function (request, response) {
     fetchJson('https://fdnd-agency.directus.app/items/f_list').then((apiData) => {
@@ -39,34 +36,40 @@ app.get('/lijst', function (request, response) {
   fetchJson('https://fdnd-agency.directus.app/items/f_list').then((apiData) => {
       console.log(apiData.data)
       response.render('lijsten.ejs', {data: apiData.data})
-});
-
+  });
 })
 
 
-app.get('/ratings', function (request, response) {
-  fetchJson('https://fdnd-agency.directus.app/items/f_list').then((apiData) => {
-      console.log(apiData.data)
-      response.render('lijsten.ejs', {data: apiData.data})
-});
-
-})
 
 app.get('/house', function (request, response) {
     fetchJson('https://fdnd-agency.directus.app/items/f_houses').then((apiData) => {
         console.log(apiData.data)
         response.render('house', {data: apiData.data})
 	});
-	
 })
 
-
 app.get('/lijsten/:id', function (request, response) {
-    fetchJson('https://fdnd-agency.directus.app/items/f_list/' + request.params.id + '?fields=*.*.*').then((apiData) => {
+    fetchJson('https://fdnd-agency.directus.app/items/f_list/' + request.params.id + '?fields=*.*.*,houses.f_houses_id.poster_image.id,houses.f_houses_id.poster_image.width,houses.f_houses_id.poster_image.height').then((apiData) => {
         response.render('lijst.ejs', {list: apiData.data})  
-        console.log(apiData.data.houses) 
+        // console.log(apiData.data.houses) 
     })
   })
+
+
+app.get('/notes', function (request, response) {
+  fetchJson('https://fdnd-agency.directus.app/items/f_users/').then((userData) => {
+    console.log(userData)
+      response.render('notes', {data: userData.data})
+  });
+})
+
+app.get('/ratings', function (request, response) {
+  fetchJson('https://fdnd-agency.directus.app/items/f_users/').then((userData) => {
+    console.log(userData)
+      response.render('ratings', {data: userData.data})
+  });
+})
+
 
 
 

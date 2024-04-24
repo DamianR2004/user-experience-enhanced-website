@@ -96,6 +96,16 @@ html, body{
     gap: 1.5em;
 }
 
+.users{
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+
 .outer-rating{
   display: flex;
   justify-content: center;
@@ -163,7 +173,7 @@ padding: 20px;
   font-size: 30px;
 }
 
-.rate{
+.rate, .get-rate-stars{
   display: flex;
   justify-content: end; 
 
@@ -181,7 +191,7 @@ padding: 20px;
 
 .rate label::after{
   content: "★";
-
+}
 .rate input{
   position: absolute;
   left: -999em;
@@ -282,4 +292,4 @@ input:checked + label,
         display: none;
       }
     }
-  }
+  
