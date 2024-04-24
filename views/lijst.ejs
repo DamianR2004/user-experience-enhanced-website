@@ -5,7 +5,12 @@
   <% list.houses.forEach(house => { console.log(house.f_houses_id.poster_image)%>
   <article class="houses">
     <ul>
-      <li><img class="image-size" src="https://fdnd-agency.directus.app/assets/<%= house.f_houses_id.poster_image.id %>" width="<%= house.f_houses_id.poster_image.width %>" height="<%= house.f_houses_id.poster_image.height %>"> </li>
+      <li>
+        <picture>
+          <source srcset="https://fdnd-agency.directus.app/assets/<%= house.f_houses_id.poster_image.id %>?format=avif" type="image/avif">
+          <source srcset="https://fdnd-agency.directus.app/assets/<%= house.f_houses_id.poster_image.id %>?format=webp" type="image/webp">
+          <img class="image-size" src="https://fdnd-agency.directus.app/assets/<%= house.f_houses_id.poster_image.id %>" width="<%= house.f_houses_id.poster_image.width %>" height="<%= house.f_houses_id.poster_image.height %>"> </li>
+        </picture>
       <li><%= house.f_houses_id.street %> <%= house.f_houses_id.house_nr %> <%= house.f_houses_id.house_nr_addition %></li>
       <li><%= house.f_houses_id.postal_code %></li> 
       <li><%= house.f_houses_id.city %></li> 

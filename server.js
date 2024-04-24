@@ -56,12 +56,14 @@ app.get('/lijsten/:id', function (request, response) {
   })
 
 
-app.get('/notes', function (request, response) {
-  fetchJson('https://fdnd-agency.directus.app/items/f_users/').then((userData) => {
-    console.log(userData)
-      response.render('notes', {data: userData.data})
+  app.get('/notes', function (request, response) {
+    Promise.all([
+      fetchJson('https://fdnd-agency.directus.app/items/f_users/'),
+      fetchJson('https://fdnd-agency.directus.app/items/f_list/')
+    ]).then(([userData, listData]) => {
+      response.render('notes', {data: userData.data, lists: listData.data});
+    });
   });
-})
 
 app.get('/ratings', function (request, response) {
   fetchJson('https://fdnd-agency.directus.app/items/f_users/').then((userData) => {
