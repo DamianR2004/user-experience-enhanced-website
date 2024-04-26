@@ -19,10 +19,19 @@ app.use(express.static('public'))
 // Zorg dat werken met request data makkelijker wordt
 app.use(express.urlencoded({extended: true}))
 
+// Stel het poortnummer in waar express op moet gaan luisteren
+app.set('port', process.env.PORT || 8000)
+
+// Start express op, haal daarbij het zojuist ingestelde poortnummer op
+app.listen(app.get('port'), function() {
+  // Toon een bericht in de console en geef het poortnummer door
+  console.log(`Application started on http://localhost:${app.get('port')}`)
+})
+
+
 app.get('/', function(request, response) {
 	response.render('homepage')
 });
-
 
 app.get('/lijsten', function (request, response) {
     fetchJson('https://fdnd-agency.directus.app/items/f_list').then((apiData) => {
@@ -39,8 +48,6 @@ app.get('/lijst', function (request, response) {
   });
 })
 
-
-
 app.get('/house', function (request, response) {
     fetchJson('https://fdnd-agency.directus.app/items/f_houses').then((apiData) => {
         console.log(apiData.data)
@@ -54,7 +61,6 @@ app.get('/lijsten/:id', function (request, response) {
         // console.log(apiData.data.houses) 
     })
   })
-
 
   app.get('/notes', function (request, response) {
     Promise.all([
@@ -77,11 +83,3 @@ app.get('/ratings', function (request, response) {
 
 
 
-// Stel het poortnummer in waar express op moet gaan luisteren
-app.set('port', process.env.PORT || 8000)
-
-// Start express op, haal daarbij het zojuist ingestelde poortnummer op
-app.listen(app.get('port'), function() {
-  // Toon een bericht in de console en geef het poortnummer door
-  console.log(`Application started on http://localhost:${app.get('port')}`)
-})
