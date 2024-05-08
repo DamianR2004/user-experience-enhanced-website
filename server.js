@@ -78,8 +78,15 @@ app.get('/ratings', function (request, response) {
   });
 })
 
-
-
+app.post('/ratings', function (request, response) {
+  fetchJson(`https://fdnd-agency.directus.app/items/f_houses/${request.params.id}/?fields=*.*.*`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      note: request.params.id
+    })
+  });
+});
 
 
 
