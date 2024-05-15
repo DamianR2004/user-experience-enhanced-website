@@ -71,6 +71,7 @@ html, body{
 .baseplate img {
     height: auto;
     max-width: 100%;
+    object-fit: cover;
 }
 
 .houses li{
@@ -91,7 +92,7 @@ html, body{
 .lists{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    background-color: black;
+    background-color: white;
     padding: 20px;
     gap: 1.5em;
 }

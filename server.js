@@ -7,6 +7,8 @@ import fetchJson from './helpers/fetch-json.js'
 // Maak een nieuwe express app aan
 const app = express()
 
+const rating = []
+
 // Stel ejs in als template engine
 app.set('view engine', 'ejs')
 
@@ -41,6 +43,13 @@ app.get('/lijsten', function (request, response) {
 	
 })
 
+app.get('/rating', function (request, response) {
+  fetchJson('https://fdnd-agency.directus.app/items/f_list').then((apiData) => {
+      console.log(apiData.data)
+      response.render('lijsten.ejs', {data: apiData.data})
+  });
+})
+
 app.get('/lijst', function (request, response) {
   fetchJson('https://fdnd-agency.directus.app/items/f_list').then((apiData) => {
       console.log(apiData.data)
@@ -51,7 +60,7 @@ app.get('/lijst', function (request, response) {
 app.get('/house', function (request, response) {
     fetchJson('https://fdnd-agency.directus.app/items/f_houses').then((apiData) => {
         console.log(apiData.data)
-        response.render('house', {data: apiData.data})
+        response.render('ratings', {data: apiData.data})
 	});
 })
 
@@ -71,22 +80,46 @@ app.get('/lijsten/:id', function (request, response) {
     });
   });
 
-app.get('/ratings', function (request, response) {
+app.get('/ratings/:list_id/:house_id', function (request, response) {
   fetchJson('https://fdnd-agency.directus.app/items/f_users/').then((userData) => {
     console.log(userData)
-      response.render('ratings', {data: userData.data})
+      response.render('ratings', {
+        data: userData.data,
+        list_id: request.params.list_id,
+        house_id: request.params.house_id
+      })
   });
 })
 
-app.post('/ratings', function (request, response) {
-  fetchJson(`https://fdnd-agency.directus.app/items/f_houses/${request.params.id}/?fields=*.*.*`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      note: request.params.id
-    })
+app.get('/rating', function (request, response) {
+  fetchJson('https://fdnd-agency.directus.app/items/f_users/').then((userData) => {
+    console.log(userData)
+      response.render('rating', {data: userData.data})
   });
-});
+})
 
 
 
+app.post('/ratings/:list_id/:house_id', function(request, response) {
+
+  console.log(request.body)
+
+  let body = JSON.stringify({
+    house: request.params.house_id,
+    list: request.params.list_id,
+    user: 3,
+    rating: JSON.stringify(request.body.rating),
+    note: request.body.notities
+  })
+  console.log(body)
+  
+  fetchJson('https://fdnd-agency.directus.app/items/f_feedback',{
+    method: 'POST',
+    body: body,
+    headers: {
+      'Content-Type' : 'application/json; charset=UTF-8',
+    },
+  }).then((postResponse) => {
+    response.redirect(303, '/')
+  })
+})
